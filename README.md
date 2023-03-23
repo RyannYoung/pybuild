@@ -2,6 +2,8 @@
 
 An opinionated script that runs automated linting, testing and building through a variety of well-known pip modules.
 
+![pybuild](https://user-images.githubusercontent.com/33287530/227072818-fa070022-b29c-452e-8d7f-2f0aa7bf272d.gif)
+
 ## Installation
 
 Download the latest `pybuild-*.whl` file from [here](https://github.com/RyannYoung/pybuild/releases)
