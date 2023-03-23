@@ -7,11 +7,10 @@ Author: Ryan Young
 
 """
 
-
 from typing import List
 import os
 import argparse
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore, Style
 
 init()
 
@@ -53,12 +52,17 @@ def run(path: str = "."):
     files = get_python_files(path)
     file_string = " ".join(files)
 
-    # Run some linters
-    run_command("pylint", f"python3 -m pylint {file_string}")
-    run_command("bandit", f"python3 -m bandit -r {file_string}")
-    run_command("pydocstyle", f"python3 -m pydocstyle {file_string}")
+    # LINTERS (opinionated precedence)
     run_command("mypy", f"python3 -m mypy {file_string}")
+    run_command("pylint", f"python3 -m pylint {file_string}")
+    run_command("pycodestyle", f"python3 -m pycodestyle {file_string}")
+    run_command("pydocstyle", f"python3 -m pydocstyle {file_string}")
     run_command("tabnanny", f"python3 -m tabnanny -v {file_string}")
+
+    # SECURITY
+    run_command("bandit", f"python3 -m bandit -r {file_string}")
+
+    # TESTING
     run_command("doctest", f"python3 -m doctest {file_string}")
     run_command("pytest", f"python3 -m pytest {path}")
 
