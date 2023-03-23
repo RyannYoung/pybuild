@@ -10,9 +10,13 @@ Author: Ryan Young
 from typing import List
 import os
 import argparse
+from sys import exit
 from colorama import init, Fore, Style
 
 init()
+
+# Define some blacklist files to not run the linter on
+blacklist = ("build.py", "generate.py", "setup.py")
 
 
 def get_python_files(dir_path: str) -> List[str]:
@@ -24,7 +28,12 @@ def get_python_files(dir_path: str) -> List[str]:
     Returns:
         List[str]: A list of python files
     """
-    return [filename for filename in os.listdir(dir_path) if filename.endswith(".py")]
+
+    return [
+        filename
+        for filename in os.listdir(dir_path)
+        if filename.endswith(".py") and not filename.endswith(blacklist)
+    ]
 
 
 def run_command(title: str, command: str) -> None:
@@ -50,6 +59,12 @@ def run(path: str = "."):
     """
     # Construct files
     files = get_python_files(path)
+
+    # Validate if there are actually any files to run with
+    if len(files) == 0:
+        print("Detected no valid files ending with .py")
+        exit(1)
+
     file_string = " ".join(files)
 
     # LINTERS (opinionated precedence)
@@ -89,4 +104,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     path = args.input
 
+    # Run the script
     run(path)

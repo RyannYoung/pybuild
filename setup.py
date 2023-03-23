@@ -14,6 +14,7 @@ setup(
         "pylint",
         "pycodestyle",
         "pydocstyle",
+        "colorama",
     ],
-    py_modules=["pybuild"],
+    py_modules=["build"],
 )
